@@ -1,0 +1,126 @@
+<section class="page-header">
+  <h1>{{product.title}}</h1>
+  <span class="badge">{{product.category}}</span>
+</section>
+
+<div class="detail-layout">
+  <!-- Info del producto -->
+  <div class="detail-card">
+    <div class="detail-field">
+      <span class="detail-label">Descripción</span>
+      <span class="detail-value">{{product.description}}</span>
+    </div>
+    <div class="detail-field">
+      <span class="detail-label">Código</span>
+      <span class="detail-value">{{product.code}}</span>
+    </div>
+    <div class="detail-field">
+      <span class="detail-label">Precio</span>
+      <span class="detail-value price">${{product.price}}</span>
+    </div>
+    <div class="detail-field">
+      <span class="detail-label">Stock</span>
+      <span class="detail-value">{{product.stock}} unidades</span>
+    </div>
+    <div class="detail-field">
+      <span class="detail-label">Estado</span>
+      <span class="detail-value">
+        {{#if product.status}}
+          <span class="status-ok">Disponible</span>
+        {{else}}
+          <span class="status-off">No disponible</span>
+        {{/if}}
+      </span>
+    </div>
+    {{#if product.thumbnails.length}}
+      <div class="detail-field">
+        <span class="detail-label">Imágenes</span>
+        <div class="thumbnails">
+          {{#each product.thumbnails}}
+            <img src="{{this}}" alt="Imagen del producto" class="thumb" />
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
+
+  <!-- Agregar al carrito -->
+  <div class="add-to-cart-panel">
+    <h2>Agregar al carrito</h2>
+    <p class="add-hint">Ingresá el ID de tu carrito para agregar este producto.</p>
+    <form id="addToCartForm" class="add-cart-form">
+      <label for="cartId">ID del carrito</label>
+      <input
+        type="text"
+        id="cartId"
+        name="cartId"
+        placeholder="Ej: 664f1a2b3c4d5e6f7a8b9c0d"
+        required
+      />
+      <button type="submit" class="btn-primary">Agregar al carrito</button>
+    </form>
+    <div id="cartMessage" class="form-message"></div>
+    <p class="cart-hint">
+      ¿No tenés carrito?
+      <a href="#" id="createCartLink">Crear uno nuevo</a>
+    </p>
+  </div>
+</div>
+
+<div class="detail-back">
+  <a href="/products">← Volver al catálogo</a>
+</div>
+
+<script>
+  const productId = '{{product._id}}';
+
+  document.getElementById('addToCartForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const cartId = document.getElementById('cartId').value.trim();
+    const msgEl = document.getElementById('cartMessage');
+
+    if (!cartId) {
+      msgEl.textContent = 'Ingresá un ID de carrito válido';
+      msgEl.className = 'form-message error';
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/carts/${cartId}/products/${productId}`, {
+        method: 'POST',
+      });
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        msgEl.textContent = '✓ Producto agregado al carrito';
+        msgEl.className = 'form-message success';
+      } else {
+        msgEl.textContent = `Error: ${data.message}`;
+        msgEl.className = 'form-message error';
+      }
+    } catch {
+      msgEl.textContent = 'Error al conectar con el servidor';
+      msgEl.className = 'form-message error';
+    }
+
+    setTimeout(() => (msgEl.textContent = ''), 4000);
+  });
+
+  document.getElementById('createCartLink').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const msgEl = document.getElementById('cartMessage');
+    try {
+      const res = await fetch('/api/carts', { method: 'POST' });
+      const data = await res.json();
+      if (data.status === 'success') {
+        const newId = data.payload._id;
+        document.getElementById('cartId').value = newId;
+        msgEl.textContent = `✓ Carrito creado: ${newId}`;
+        msgEl.className = 'form-message success';
+      }
+    } catch {
+      msgEl.textContent = 'Error al crear el carrito';
+      msgEl.className = 'form-message error';
+    }
+  });
+</script>

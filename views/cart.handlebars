@@ -1,0 +1,94 @@
+<section class="page-header">
+  <h1>{{title}}</h1>
+  <p class="subtitle">ID: {{cartId}}</p>
+</section>
+
+{{#if cart.products.length}}
+  <div class="table-wrapper">
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Categoría</th>
+          <th>Precio unitario</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="cartBody">
+        {{#each cart.products}}
+          <tr id="row-{{this.product._id}}">
+            <td>
+              <a href="/products/{{this.product._id}}">{{this.product.title}}</a>
+            </td>
+            <td><span class="badge">{{this.product.category}}</span></td>
+            <td class="price">${{this.product.price}}</td>
+            <td>{{this.quantity}}</td>
+            <td class="price">${{this.subtotal}}</td>
+            <td>
+              <button
+                class="btn-danger"
+                onclick="removeProduct('{{../cartId}}', '{{this.product._id}}')"
+              >
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cart-footer">
+    <div class="cart-total">
+      Total: <strong class="price">${{total}}</strong>
+    </div>
+    <button class="btn-clear" onclick="clearCart('{{cartId}}')">
+      Vaciar carrito
+    </button>
+  </div>
+{{else}}
+  <div class="empty-cart">
+    <p>El carrito está vacío.</p>
+    <a href="/products" class="btn-primary">Ver productos</a>
+  </div>
+{{/if}}
+
+<div class="detail-back">
+  <a href="/products">← Seguir comprando</a>
+</div>
+
+<script>
+  async function removeProduct(cartId, productId) {
+    if (!confirm('¿Eliminar este producto del carrito?')) return;
+    try {
+      const res = await fetch(`/api/carts/${cartId}/products/${productId}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        location.reload();
+      } else {
+        alert('Error: ' + data.message);
+      }
+    } catch {
+      alert('Error al conectar con el servidor');
+    }
+  }
+
+  async function clearCart(cartId) {
+    if (!confirm('¿Vaciar todo el carrito?')) return;
+    try {
+      const res = await fetch(`/api/carts/${cartId}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.status === 'success') {
+        location.reload();
+      } else {
+        alert('Error: ' + data.message);
+      }
+    } catch {
+      alert('Error al conectar con el servidor');
+    }
+  }
+</script>

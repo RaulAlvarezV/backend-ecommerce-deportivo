@@ -1,0 +1,83 @@
+<section class="page-header">
+  <h1>{{title}}</h1>
+  <p class="subtitle">Página {{page}} de {{totalPages}}</p>
+</section>
+
+<!-- Filtros -->
+<form class="filter-form" method="GET" action="/products">
+  <input
+    type="hidden"
+    name="limit"
+    value="{{limit}}"
+  />
+  <input
+    type="text"
+    name="query"
+    value="{{query}}"
+    placeholder="Categoría o 'true'/'false' para disponibilidad"
+  />
+  <select name="sort">
+    <option value="">Sin orden</option>
+    <option value="asc"  {{#if (eq sort 'asc')}}selected{{/if}}>Precio: menor a mayor</option>
+    <option value="desc" {{#if (eq sort 'desc')}}selected{{/if}}>Precio: mayor a menor</option>
+  </select>
+  <button type="submit" class="btn-filter">Filtrar</button>
+  <a href="/products" class="btn-reset">Limpiar</a>
+</form>
+
+<!-- Tabla de productos -->
+{{#if products.length}}
+  <div class="table-wrapper">
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Estado</th>
+          <th>Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+          <tr>
+            <td>{{this.title}}</td>
+            <td><span class="badge">{{this.category}}</span></td>
+            <td class="price">${{this.price}}</td>
+            <td>{{this.stock}}</td>
+            <td>
+              {{#if this.status}}
+                <span class="status-ok">Disponible</span>
+              {{else}}
+                <span class="status-off">No disponible</span>
+              {{/if}}
+            </td>
+            <td>
+              <a href="/products/{{this._id}}" class="btn-detail">Ver</a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <nav class="pagination">
+    {{#if hasPrevPage}}
+      <a href="{{prevLink}}" class="page-btn">← Anterior</a>
+    {{else}}
+      <span class="page-btn disabled">← Anterior</span>
+    {{/if}}
+
+    <span class="page-info">Página {{page}} / {{totalPages}}</span>
+
+    {{#if hasNextPage}}
+      <a href="{{nextLink}}" class="page-btn">Siguiente →</a>
+    {{else}}
+      <span class="page-btn disabled">Siguiente →</span>
+    {{/if}}
+  </nav>
+{{else}}
+  <p class="empty-msg">No se encontraron productos con esos filtros.</p>
+{{/if}}

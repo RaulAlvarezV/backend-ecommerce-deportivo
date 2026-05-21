@@ -2,7 +2,12 @@ const Product = require('../../models/Product');
 
 class ProductManagerMongo {
   async getProducts({ limit = 10, page = 1, query = '', sort = '' } = {}) {
-    const filter = query ? { category: { $regex: query, $options: 'i' } } : {};
+    let filter = {};
+    if (query === 'true' || query === 'false') {
+      filter = { status: query === 'true' };
+    } else if (query) {
+      filter = { category: { $regex: query, $options: 'i' } };
+    }
 
     const sortOption =
       sort === 'asc'
