@@ -621,3 +621,98 @@ body {
   padding: 11px 30px;
   text-decoration: none;
 }
+
+/* ── Product card: placeholder sin imagen ── */
+.product-thumb-placeholder {
+  width: 100%;
+  height: 180px;
+  background: #e9ecef;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+/* ── btn-detail full-width (cards de catálogo) ── */
+.btn-detail.btn-block {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  margin-top: auto;
+}
+
+/* ── Product Detail: layout tipo tienda ── */
+.detail-shop-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .detail-shop-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-image-col {
+  position: sticky;
+  top: 20px;
+}
+
+.detail-main-img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  max-height: 480px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.detail-no-image {
+  width: 100%;
+  height: 320px;
+  background: #e9ecef;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.detail-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.detail-title {
+  font-size: 1.8rem;
+  color: #1a1a2e;
+  line-height: 1.3;
+}
+
+.detail-big-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #007bff;
+}
+
+.detail-description {
+  font-size: 0.97rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.detail-meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #555;
+  background: #f8f9fa;
+  padding: 14px 16px;
+  border-radius: 8px;
+}

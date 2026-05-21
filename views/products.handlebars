@@ -25,47 +25,31 @@
   <a href="/products" class="btn-reset">Limpiar</a>
 </form>
 
-<!-- Tabla de productos -->
 {{#if products.length}}
-  <div class="table-wrapper">
-    <table class="products-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Título</th>
-          <th>Categoría</th>
-          <th>Precio</th>
-          <th>Stock</th>
-          <th>Estado</th>
-          <th>Detalle</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each products}}
-          <tr>
-            <td>
-              {{#if this.thumbnails.length}}
-                <img src="{{this.thumbnails.[0]}}" alt="{{this.title}}" class="table-thumb" />
-              {{/if}}
-            </td>
-            <td>{{this.title}}</td>
-            <td><span class="badge">{{this.category}}</span></td>
-            <td class="price">${{this.price}}</td>
-            <td>{{this.stock}}</td>
-            <td>
-              {{#if this.status}}
-                <span class="status-ok">Disponible</span>
-              {{else}}
-                <span class="status-off">No disponible</span>
-              {{/if}}
-            </td>
-            <td>
-              <a href="/products/{{this._id}}" class="btn-detail">Ver</a>
-            </td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
+  <div class="product-grid">
+    {{#each products}}
+      <article class="product-card">
+        {{#if this.thumbnails.length}}
+          <img src="{{this.thumbnails.[0]}}" alt="{{this.title}}" class="product-thumb" />
+        {{else}}
+          <div class="product-thumb-placeholder">Sin imagen</div>
+        {{/if}}
+        <h2 class="product-title">{{this.title}}</h2>
+        <div class="product-meta">
+          <span class="badge">{{this.category}}</span>
+          <span class="price">${{this.price}}</span>
+        </div>
+        <div class="product-footer">
+          <span class="stock">Stock: {{this.stock}}</span>
+          {{#if this.status}}
+            <span class="status-ok">Disponible</span>
+          {{else}}
+            <span class="status-off">No disponible</span>
+          {{/if}}
+        </div>
+        <a href="/products/{{this._id}}" class="btn-detail btn-block">Ver detalle</a>
+      </article>
+    {{/each}}
   </div>
 
   <!-- Paginación -->

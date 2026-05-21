@@ -14,6 +14,7 @@
           <li><a href="/">Inicio</a></li>
           <li><a href="/products">Productos</a></li>
           <li><a href="/realtimeproducts">Tiempo Real</a></li>
+          <li><a href="#" id="navCartLink">🛒 Mi carrito</a></li>
         </ul>
       </nav>
     </header>
@@ -22,5 +23,16 @@
       {{{body}}}
     </main>
 
+    <script>
+      document.getElementById('navCartLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        const cartId = localStorage.getItem('cartId');
+        if (cartId) {
+          window.location.href = `/carts/${cartId}`;
+        } else {
+          alert('No tenés un carrito activo. Creá uno desde el detalle de un producto.');
+        }
+      });
+    </script>
   </body>
 </html>
