@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const { engine } = require('express-handlebars');
 const path = require('path');
 
@@ -11,6 +12,7 @@ const app = express();
 // ── Middlewares ──────────────────────────────────────────────────────────────
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
 // ── Motor de vistas: Handlebars ──────────────────────────────────────────────

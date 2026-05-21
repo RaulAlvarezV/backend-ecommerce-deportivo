@@ -19,5 +19,7 @@ io.on('connection', () => {});
 
 // ── Inicializar servidor ─────────────────────────────────────────────────────
 connectDB().then(() => {
-  httpServer.listen(PORT);
+  httpServer.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  });
 });

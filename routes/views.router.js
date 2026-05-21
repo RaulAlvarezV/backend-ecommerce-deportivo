@@ -9,6 +9,28 @@ const cartManager = new CartManagerMongo();
 // Alias para compatibilidad con rutas que ya usan `manager`
 const manager = productManager;
 
+// ── Middleware: resuelve o crea el carrito persistente via cookie ─────────────
+const CART_COOKIE = 'cartId';
+const COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 30; // 30 días
+
+const resolveCart = async (req, res, next) => {
+  let cartId = req.cookies[CART_COOKIE];
+  if (cartId) {
+    // Verificar que el carrito aún exista en la BD
+    const exists = await cartManager.getCartById(cartId).catch(() => null);
+    if (!exists) cartId = null;
+  }
+  if (!cartId) {
+    const newCart = await cartManager.createCart();
+    cartId = newCart._id.toString();
+    res.cookie(CART_COOKIE, cartId, { maxAge: COOKIE_MAX_AGE, httpOnly: true });
+  }
+  res.locals.cartId = cartId;
+  next();
+};
+
+router.use(resolveCart);
+
 // GET / - Vista home con listado de productos
 router.get('/', async (req, res) => {
   try {
@@ -59,6 +81,11 @@ router.get('/products/:pid', async (req, res) => {
   } catch (error) {
     res.status(500).render('error', { message: error.message });
   }
+});
+
+// GET /cart - Redirige al carrito persistente del usuario (via cookie)
+router.get('/cart', (req, res) => {
+  res.redirect(`/carts/${res.locals.cartId}`);
 });
 
 // GET /carts/:cid - Vista del carrito con populate

@@ -48,6 +48,7 @@
           {{/if}}
         </div>
         <a href="/products/{{this._id}}" class="btn-detail btn-block">Ver detalle</a>
+        <button class="btn-add-cart btn-block" data-pid="{{this._id}}">Agregar al carrito</button>
       </article>
     {{/each}}
   </div>
@@ -71,3 +72,25 @@
 {{else}}
   <p class="empty-msg">No se encontraron productos con esos filtros.</p>
 {{/if}}
+
+<script>
+  const cartId = '{{cartId}}';
+
+  document.querySelectorAll('.btn-add-cart').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const pid = btn.dataset.pid;
+      try {
+        const res = await fetch(`/api/carts/${cartId}/products/${pid}`, { method: 'POST' });
+        const data = await res.json();
+        if (data.status === 'success') {
+          btn.textContent = '✓ Agregado';
+          btn.disabled = true;
+          setTimeout(() => { btn.textContent = 'Agregar al carrito'; btn.disabled = false; }, 2500);
+        }
+      } catch {
+        btn.textContent = 'Error';
+        setTimeout(() => { btn.textContent = 'Agregar al carrito'; }, 2500);
+      }
+    });
+  });
+</script>
