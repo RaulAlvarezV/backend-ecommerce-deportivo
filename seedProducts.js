@@ -53,7 +53,7 @@ const products = [
     status:      true,
     stock:       10,
     category:    'Fútbol',
-    thumbnails:  ['https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&q=80&auto=format&fit=crop'],
+    thumbnails:  ['https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=400&q=80&auto=format&fit=crop'],
   },
   {
     title:       'Canilleras de Fútbol',
@@ -63,7 +63,7 @@ const products = [
     status:      false,
     stock:       0,
     category:    'Fútbol',
-    thumbnails:  ['https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&q=80&auto=format&fit=crop'],
+    thumbnails:  ['https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=400&q=80&auto=format&fit=crop'],
   },
 
   // Running (3 productos)
