@@ -15,21 +15,9 @@ const io = new Server(httpServer);
 app.set('socketio', io);
 
 // ── WebSockets ───────────────────────────────────────────────────────────────
-io.on('connection', (socket) => {
-  console.log(`Cliente conectado: ${socket.id}`);
-
-  socket.on('disconnect', () => {
-    console.log(`Cliente desconectado: ${socket.id}`);
-  });
-});
+io.on('connection', () => {});
 
 // ── Inicializar servidor ─────────────────────────────────────────────────────
 connectDB().then(() => {
-  httpServer.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-    console.log(`Vista home:              http://localhost:${PORT}/`);
-    console.log(`Vista tiempo real:       http://localhost:${PORT}/realtimeproducts`);
-    console.log(`API productos:           http://localhost:${PORT}/api/products`);
-    console.log(`API carritos:            http://localhost:${PORT}/api/carts`);
-  });
+  httpServer.listen(PORT);
 });
