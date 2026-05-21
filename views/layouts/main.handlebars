@@ -23,5 +23,58 @@
       {{{body}}}
     </main>
 
+    <!-- Toast container -->
+    <div id="toast-container"></div>
+
+    <!-- Modal de confirmación -->
+    <div id="confirm-overlay" class="modal-overlay hidden">
+      <div class="modal-box">
+        <p id="confirm-message"></p>
+        <div class="modal-actions">
+          <button id="confirm-yes" class="btn-primary">Confirmar</button>
+          <button id="confirm-no" class="btn-secondary">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showToast(message, type = 'error') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        container.appendChild(toast);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => toast.classList.add('toast-show'));
+        });
+        setTimeout(() => {
+          toast.classList.remove('toast-show');
+          setTimeout(() => toast.remove(), 300);
+        }, 3500);
+      }
+
+      function showConfirm(message) {
+        return new Promise((resolve) => {
+          const overlay = document.getElementById('confirm-overlay');
+          document.getElementById('confirm-message').textContent = message;
+          overlay.classList.remove('hidden');
+
+          const yes = document.getElementById('confirm-yes');
+          const no  = document.getElementById('confirm-no');
+
+          function done(result) {
+            overlay.classList.add('hidden');
+            const newYes = yes.cloneNode(true);
+            const newNo  = no.cloneNode(true);
+            yes.replaceWith(newYes);
+            no.replaceWith(newNo);
+            resolve(result);
+          }
+
+          yes.addEventListener('click', () => done(true),  { once: true });
+          no.addEventListener('click',  () => done(false), { once: true });
+        });
+      }
+    </script>
   </body>
 </html>

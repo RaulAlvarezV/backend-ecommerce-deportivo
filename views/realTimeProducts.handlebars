@@ -110,15 +110,16 @@
 
   // Eliminar producto
   async function deleteProduct(id) {
-    if (!confirm('¿Eliminar este producto?')) return;
+    const ok = await showConfirm('¿Eliminar este producto?');
+    if (!ok) return;
     try {
       const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.status !== 'success') {
-        alert('Error al eliminar el producto');
+        showToast('Error al eliminar el producto');
       }
     } catch {
-      alert('Error al conectar con el servidor');
+      showToast('Error al conectar con el servidor');
     }
   }
 </script>

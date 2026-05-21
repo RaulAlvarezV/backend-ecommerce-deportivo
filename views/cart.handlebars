@@ -61,7 +61,8 @@
 
 <script>
   async function removeProduct(cartId, productId) {
-    if (!confirm('¿Eliminar este producto del carrito?')) return;
+    const ok = await showConfirm('¿Eliminar este producto del carrito?');
+    if (!ok) return;
     try {
       const res = await fetch(`/api/carts/${cartId}/products/${productId}`, {
         method: 'DELETE',
@@ -70,25 +71,26 @@
       if (data.status === 'success') {
         location.reload();
       } else {
-        alert('Error: ' + data.message);
+        showToast('Error: ' + data.message);
       }
     } catch {
-      alert('Error al conectar con el servidor');
+      showToast('Error al conectar con el servidor');
     }
   }
 
   async function clearCart(cartId) {
-    if (!confirm('¿Vaciar todo el carrito?')) return;
+    const ok = await showConfirm('¿Vaciar todo el carrito?');
+    if (!ok) return;
     try {
       const res = await fetch(`/api/carts/${cartId}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.status === 'success') {
         location.reload();
       } else {
-        alert('Error: ' + data.message);
+        showToast('Error: ' + data.message);
       }
     } catch {
-      alert('Error al conectar con el servidor');
+      showToast('Error al conectar con el servidor');
     }
   }
 </script>
