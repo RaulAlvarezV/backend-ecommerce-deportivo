@@ -31,6 +31,7 @@
     <table class="products-table">
       <thead>
         <tr>
+          <th></th>
           <th>Título</th>
           <th>Categoría</th>
           <th>Precio</th>
@@ -42,6 +43,11 @@
       <tbody>
         {{#each products}}
           <tr>
+            <td>
+              {{#if this.thumbnails.length}}
+                <img src="{{this.thumbnails.[0]}}" alt="{{this.title}}" class="table-thumb" />
+              {{/if}}
+            </td>
             <td>{{this.title}}</td>
             <td><span class="badge">{{this.category}}</span></td>
             <td class="price">${{this.price}}</td>
