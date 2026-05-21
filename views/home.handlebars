@@ -1,0 +1,25 @@
+<section class="page-header">
+  <h1>{{title}}</h1>
+  <p class="subtitle">Catálogo de productos disponibles</p>
+</section>
+
+<section class="product-grid">
+  {{#if products.length}}
+    {{#each products}}
+      <article class="product-card">
+        <h2 class="product-title">{{this.title}}</h2>
+        <p class="product-desc">{{this.description}}</p>
+        <div class="product-meta">
+          <span class="price">${{this.price}}</span>
+          <span class="category badge">{{this.category}}</span>
+        </div>
+        <div class="product-footer">
+          <span class="stock">Stock: {{this.stock}}</span>
+          <span class="code">Código: {{this.code}}</span>
+        </div>
+      </article>
+    {{/each}}
+  {{else}}
+    <p class="empty-msg">No hay productos disponibles todavía.</p>
+  {{/if}}
+</section>

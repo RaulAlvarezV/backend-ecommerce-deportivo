@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}} | Ecommerce Deportivo</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="brand">⚽ Ecommerce Deportivo</div>
+        <ul class="nav-links">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/realtimeproducts">Tiempo Real</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      {{{body}}}
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

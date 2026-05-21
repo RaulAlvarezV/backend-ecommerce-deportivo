@@ -1,0 +1,122 @@
+<section class="page-header">
+  <h1>{{title}}</h1>
+  <p class="subtitle">Agregá o eliminá productos — los cambios se reflejan en tiempo real</p>
+</section>
+
+<div class="realtime-layout">
+  <!-- Formulario para agregar producto -->
+  <div class="form-panel">
+    <h2>Agregar Producto</h2>
+    <form id="productForm" class="product-form">
+      <input type="text"   id="title"       placeholder="Título"       required />
+      <input type="text"   id="description" placeholder="Descripción"  required />
+      <input type="text"   id="code"        placeholder="Código único"  required />
+      <input type="number" id="price"       placeholder="Precio"        required min="0" />
+      <input type="number" id="stock"       placeholder="Stock"         required min="0" />
+      <input type="text"   id="category"    placeholder="Categoría"     required />
+      <button type="submit" class="btn-primary">Agregar Producto</button>
+    </form>
+    <div id="formMessage" class="form-message"></div>
+  </div>
+
+  <!-- Listado en tiempo real -->
+  <div class="list-panel">
+    <h2>Listado Actual</h2>
+    <ul id="productList" class="realtime-list">
+      {{#each products}}
+        <li id="product-{{this._id}}" class="realtime-item">
+          <div>
+            <strong>{{this.title}}</strong>
+            <span class="badge">{{this.category}}</span>
+          </div>
+          <div class="item-actions">
+            <span class="price">${{this.price}}</span>
+            <button class="btn-danger" onclick="deleteProduct('{{this._id}}')">Eliminar</button>
+          </div>
+        </li>
+      {{else}}
+        <li class="empty-msg">No hay productos todavía.</li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+
+<script>
+  const socket = io();
+
+  // Actualizar lista cuando el servidor emite cambios
+  socket.on('updateProducts', (products) => {
+    const list = document.getElementById('productList');
+    if (products.length === 0) {
+      list.innerHTML = '<li class="empty-msg">No hay productos todavía.</li>';
+      return;
+    }
+    list.innerHTML = products
+      .map(
+        (p) => `
+        <li id="product-${p._id}" class="realtime-item">
+          <div>
+            <strong>${p.title}</strong>
+            <span class="badge">${p.category}</span>
+          </div>
+          <div class="item-actions">
+            <span class="price">$${p.price}</span>
+            <button class="btn-danger" onclick="deleteProduct('${p._id}')">Eliminar</button>
+          </div>
+        </li>`
+      )
+      .join('');
+  });
+
+  // Enviar nuevo producto
+  document.getElementById('productForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msgEl = document.getElementById('formMessage');
+
+    const product = {
+      title:       document.getElementById('title').value.trim(),
+      description: document.getElementById('description').value.trim(),
+      code:        document.getElementById('code').value.trim(),
+      price:       Number(document.getElementById('price').value),
+      stock:       Number(document.getElementById('stock').value),
+      category:    document.getElementById('category').value.trim(),
+    };
+
+    try {
+      const res = await fetch('/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(product),
+      });
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        msgEl.textContent = '✓ Producto agregado correctamente';
+        msgEl.className = 'form-message success';
+        e.target.reset();
+      } else {
+        msgEl.textContent = `Error: ${data.message}`;
+        msgEl.className = 'form-message error';
+      }
+    } catch (err) {
+      msgEl.textContent = 'Error al conectar con el servidor';
+      msgEl.className = 'form-message error';
+    }
+
+    setTimeout(() => (msgEl.textContent = ''), 3000);
+  });
+
+  // Eliminar producto
+  async function deleteProduct(id) {
+    if (!confirm('¿Eliminar este producto?')) return;
+    try {
+      const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.status !== 'success') {
+        alert('Error al eliminar el producto');
+      }
+    } catch {
+      alert('Error al conectar con el servidor');
+    }
+  }
+</script>
