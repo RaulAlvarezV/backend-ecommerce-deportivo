@@ -33,7 +33,7 @@ const products = [
     status:      true,
     stock:       30,
     category:    'Fútbol',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1614632537190-23e4146777db?w=400&q=80&auto=format&fit=crop'],
   },
   {
     title:       'Botines Nike Mercurial',
@@ -43,7 +43,7 @@ const products = [
     status:      true,
     stock:       15,
     category:    'Fútbol',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1511886929837-354d827aae26?w=400&q=80&auto=format&fit=crop'],
   },
   {
     title:       'Arco de Fútbol Plegable',
@@ -53,7 +53,7 @@ const products = [
     status:      true,
     stock:       10,
     category:    'Fútbol',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&q=80&auto=format&fit=crop'],
   },
   {
     title:       'Canilleras de Fútbol',
@@ -63,7 +63,7 @@ const products = [
     status:      false,
     stock:       0,
     category:    'Fútbol',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&q=80&auto=format&fit=crop'],
   },
 
   // Running (3 productos)
@@ -75,7 +75,7 @@ const products = [
     status:      true,
     stock:       20,
     category:    'Running',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80&auto=format&fit=crop'],
   },
   {
     title:       'Reloj GPS Garmin Forerunner',
@@ -85,7 +85,7 @@ const products = [
     status:      true,
     stock:       8,
     category:    'Running',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=400&q=80&auto=format&fit=crop'],
   },
   {
     title:       'Mochila de Hidratación 2L',
@@ -95,7 +95,7 @@ const products = [
     status:      true,
     stock:       25,
     category:    'Running',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1622163642998-1ea32b0bbc67?w=400&q=80&auto=format&fit=crop'],
   },
 
   // Tenis (3 productos)
@@ -107,7 +107,7 @@ const products = [
     status:      true,
     stock:       12,
     category:    'Tenis',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=400&q=80&auto=format&fit=crop'],
   },
   {
     title:       'Pelotas de Tenis Head x3',
@@ -117,7 +117,7 @@ const products = [
     status:      true,
     stock:       50,
     category:    'Tenis',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80&auto=format&fit=crop'],
   },
   {
     title:       'Zapatillas Tenis Adidas Barricade',
@@ -127,7 +127,7 @@ const products = [
     status:      true,
     stock:       18,
     category:    'Tenis',
-    thumbnails:  [],
+    thumbnails:  ['https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&q=80&auto=format&fit=crop'],
   },
 ];
 
